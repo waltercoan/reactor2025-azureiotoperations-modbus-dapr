@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "name": "clpmodbus",
+  "description": "clpmodbus",
+  "type": "object",
+  "properties": {
+    "data": {
+      "type": "object",
+      "properties": {
+        "Address": {
+          "type": "string"
+        },
+        "Id": {
+          "type": "string"
+        },
+        "Name": {
+          "type": "string"
+        },
+        "Type": {
+          "type": "string"
+        },
+        "Value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "Address",
+        "Id",
+        "Name",
+        "Type",
+        "Value"
+      ]
+    },
+    "datacontenttype": {
+      "type": "string"
+    },
+    "id": {
+      "type": "string"
+    },
+    "pubsubname": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "specversion": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "topic": {
+      "type": "string"
+    },
+    "traceid": {
+      "type": "string"
+    },
+    "traceparent": {
+      "type": "string"
+    },
+    "tracestate": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "data",
+    "datacontenttype",
+    "id",
+    "pubsubname",
+    "source",
+    "specversion",
+    "time",
+    "topic",
+    "traceid",
+    "traceparent",
+    "tracestate",
+    "type"
+  ]
+}

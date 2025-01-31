@@ -1,0 +1,123 @@
+{
+  "$schema": "Delta/1.0",
+  "type": "object",
+  "properties": {
+    "type": "struct",
+    "fields": [
+      {
+        "name": "data",
+        "type": {
+          "type": "struct",
+          "fields": [
+            {
+              "name": "Address",
+              "type": {
+                "type": "decimal",
+                "precision": 2,
+                "scale": 1
+              },
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "Id",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "Name",
+              "type": "string",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "Type",
+              "type": "binary",
+              "nullable": true,
+              "metadata": {}
+            },
+            {
+              "name": "Value",
+              "type": "integer",
+              "nullable": true,
+              "metadata": {}
+            }
+          ]
+        },
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "datacontenttype",
+        "type": "binary",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "id",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "pubsubname",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "source",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "specversion",
+        "type": {
+          "type": "decimal",
+          "precision": 2,
+          "scale": 1
+        },
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "time",
+        "type": "timestamp",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "topic",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "traceid",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "traceparent",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "tracestate",
+        "type": "binary",
+        "nullable": true,
+        "metadata": {}
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "nullable": true,
+        "metadata": {}
+      }
+    ]
+  }
+}
