@@ -37,11 +37,12 @@ The next step is to build the .net application using the Dapr libraries to publi
 
 ## .net 9 application with Dapr runtime
 To start developing the application, a new .net 9 application was created using the Console model.
-```
+```shell
 dotnet new console -o aio-modbus
 ```
+
 The following packages were installed via Nuget:
-```
+```shell
 dotnet add package Dapr.Client --version 1.14.0
 dotnet add package Modbus.Net --version 1.4.3
 dotnet add package Modbus.Net.Modbus --version 1.4.3    
@@ -50,12 +51,12 @@ dotnet add package System.IO.Ports --version 9.0.1
 ```
 To simplify the example, all the logic is concentrated in the Program.cs file.
 1. An instance of Dapr Client is created, which will be responsible for connecting to the sidecar to establish the connection with the Azure IoT Operations MQTT Broker.
-```
+```cs
 Console.WriteLine("AIO-MODBUS - CONNECT DAPR");
 using var client = new DaprClientBuilder().Build();
 ```
 2. Using the Modbus.Net library, we establish a serial RTU connection with the Modbus protocol on the /dev/ttyACM0 port. We describe the addresses of the PLC registers, which in this case is address 100002, where the Area = "1X" parameter represents the first two bytes of the address (10) and Address = 2 represents the rest of the address (0002).
-```
+```cs
 Console.WriteLine("AIO-MODBUS - CONNECT MODBUS");
 List<AddressUnit> addressUnits = new List<AddressUnit>
 {
@@ -64,7 +65,7 @@ List<AddressUnit> addressUnits = new List<AddressUnit>
 var  machine = new ModbusMachine("CLP",ModbusType.Rtu, "/dev/ttyACM0", addressUnits, true, 1, 3, Endian.BigEndianLsb);
 ```
 3. We register a Scheduler, which every 5 seconds will query all the PLC register addresses, collect their state, and create an instance of the CLPData class that will then be published to the Dapr pubsub service.
-```
+```cs
 Console.WriteLine("AIO-MODBUS - SENDING DATA");
 await MachineJobSchedulerCreator.CreateScheduler("Trigger1", -1, 5).Result.From(machine.Id, machine, MachineDataType.CommunicationTag).Result.Query("Query1",
     returnValues =>
@@ -111,7 +112,7 @@ await MachineJobSchedulerCreator.CreateScheduler("Trigger1", -1, 5).Result.From(
     }).Result.Run();
 ```
 The Modbus.net library requires an appsettings.default.json file containing the parameterization of the serial communication that will be performed.
-```
+```json
 {
   "Modbus.Net": {
     "COM": {
@@ -135,7 +136,7 @@ The Modbus.net library requires an appsettings.default.json file containing the 
 ## Application Build
 
 To build the application, a Dockerfile was created, which uses the multi-stage strategy to first compile the project and then generate the final image. It is important to note that in order for the application to have access to the serial port on the device, the strategy of executing the process as a root user was used. This strategy can be avoided by creating a specific user with read and write permissions on the serial port.
-```
+```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:9.0@sha256:3fcf6f1e809c0553f9feb222369f58749af314af6f063f389cbd2f913b4ad556 AS build
 WORKDIR /App
 
@@ -158,7 +159,7 @@ Once the Docker image has been built and pushed to a container registry, the nex
 
 For deployment, a YAML file was created to deploy to the cluster, [similar to the one described in this tutorial](https://learn.microsoft.com/en-us/azure/iot-operations/create-edge-apps/howto-develop-dapr-apps?wt.mc_id=AZ-MVP-5003638) with the main change being the need to mount the volume pointing to the serial port /dev/ttyACM0 and giving elevated privilege permission: privileged: true
 
-```
+```yaml
 apiVersion: v1
 kind: ServiceAccount
 metadata:
